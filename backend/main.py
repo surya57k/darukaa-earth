@@ -9,6 +9,7 @@ from app.core.dependencies import get_current_user
 from app.models.user import User
 from app.api.projects import router as projects_router
 from app.api.sites import router as sites_router
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(
@@ -16,7 +17,16 @@ app = FastAPI(
     description="Geospatial data analytics platform"
 )
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 Base.metadata.create_all(bind=engine)
 
 
